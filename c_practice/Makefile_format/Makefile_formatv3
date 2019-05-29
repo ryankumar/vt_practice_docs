@@ -1,0 +1,27 @@
+# changes : flags are declared
+all: test_1017_05.09 test_1017_06.09 test_1017_07.09
+
+CC: gcc
+CFLAGS: -g -Wall
+
+test_1017_05.09.o: 
+	$(CC) $(CFLAGS) -c test_1017_05.09.c
+
+test_1017_06.09.o: 
+	$(CC) $(CFLAGS) -c  test_1017_06.09.c 
+
+test_1017_07.09.o: 
+	$(CC) $(CFLAGS) -c test_1017_07.09.c 
+
+
+test_1017_05.09: test_1017_05.09.o
+	$(CC) -o test_1017_05.09 test_1017_05.09.o
+
+test_1017_06.09: test_1017_06.09.o
+	$(CC) -o test_1017_06.09 test_1017_06.09.o
+
+test_1017_07.09: test_1017_07.09.o
+	$(CC) -o test_1017_07.09 test_1017_07.09.o
+
+clean:
+	rm *.o test_1017_05.09 test_1017_06.09 test_1017_07.09

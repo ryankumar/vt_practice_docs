@@ -1,0 +1,9 @@
+python extract_feature_vectors.py -i dataset/ -o output/embeddings.pickle -d caffe_face_detection_model/ -e openface_nn4.small2.v1.t7
+python train.py -o output/embeddings.pickle -m output/svm.pickle -l output/le.pickle
+python test.py -e openface_nn4.small2.v1.t7 -d caffe_face_detection_model/ -m output/svm.pickle -l output/le.pickle -i images/10.jpeg
+
+
+https://medium.com/nanonets/nanonets-how-to-use-deep-learning-when-you-have-limited-data-f68c0b512cab
+https://medium.com/nanonets/how-to-use-deep-learning-when-you-have-limited-data-part-2-data-augmentation-c26971dc8ced
+https://medium.com/ymedialabs-innovation/data-augmentation-techniques-in-cnn-using-tensorflow-371ae43d5be9
+

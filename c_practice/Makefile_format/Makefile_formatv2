@@ -1,0 +1,29 @@
+#changes only in: dependents are not decalare for target .o
+
+all: test_1017_05.09 test_1017_06.09 test_1017_07.09
+
+
+test_1017_05.09.o: 
+	gcc -g -Wall -c test_1017_05.09.c
+
+test_1017_06.09.o: 
+	gcc -g -Wall -c  test_1017_06.09.c 
+
+test_1017_07.09.o: 
+	gcc -g -Wall -c test_1017_07.09.c 
+
+test_1017_05.09: test_1017_05.09.o
+	gcc -o test_1017_05.09 test_1017_05.09.o
+
+test_1017_06.09: test_1017_06.09.o
+	gcc -o test_1017_06.09 test_1017_06.09.o
+
+test_1017_07.09: test_1017_07.09.o
+	gcc -o test_1017_07.09 test_1017_07.09.o
+
+
+
+
+
+clean:
+	rm *.o test_1017_05.09 test_1017_06.09 test_1017_07.09

@@ -1,0 +1,64 @@
+
+1.test_1017_30.08.c :- Given below is the list of marks obtained by a class of 50 students in an annual examination.
+			43 65 51 27 79 11 56 61 82 09 25 36 07 49 55 63 74 81 49 37 40 49 16 75 87 91 33 24 58 78 65
+			56 76 67 45 54 36 63 12 21 73 49 51 19 39 49 68 93 85 59
+			pass marks: 37
+
+			write a program to round up obtain marks if person get above 80 no round up to done.
+
+			if person get not a multiple of 5 round there's marks to 5 multiple.
+
+			if person fails and difference between passing marks is less than 5 round up passing marks else no round up is require
+
+2.test_1017_31.08.c :- write c program to find a peculiar two digit number which is three times the sum of its digits.
+
+3.test_1017_03.09.c :- For given string print all the substrings which are palindromes.
+
+4.test_1017_05.09.c :- write c program to modify the below string.
+
+			1.Input: hello this is new world
+			  output: HELLO This IS New WORLD
+
+			2. Remove given character from string
+
+5.test_1017_06.09.c :- write c program to Implement stack using linked list and validate expression is correct or not
+			Ex:  {()()} this expression is correct
+       			     {()()}) this expression is in correct
+
+6.test_1017_26.11.c :- reverse the string given by user
+			Ex: i/p: Welcome
+			    o/p: emocleW
+
+7.test1_1017_26.11.c :- Construct reverse string after provide by the user after removing all the duplicates characters in string.
+			i/p: Welcome
+			o/p: mocleW
+
+8.test2_1017_26.11.c :-In a given file,  find number count of occurrence of a given string in a file.
+			Note: Ignoring character cases.
+			 
+			i/p file: The quick brown fox jumps over the lazy dog.
+			i/p string : the
+
+			o/p :2
+			explanation:1. The, 2 the.  There are 2 string  The and the in given file
+
+9.test3_1017_26.11.c :- In a given file,  find number count of occurrence of a given string in a file.
+			Change all capitals letter into small of small letter into capital for given string in the file.
+			
+			
+			Example Input:
+			File Content: The quick brown fox jumps over the lazy dog
+			String Search: the
+
+			Output File Content:  EHt quick brown fox jumps over EHT lazy dog 
+			Explanation: There are 2 string  The and the in given file are reverse with change case.
+
+10.array_rotation/array_rotation.c : Take an array of user given size and make that to number of left rotation given by user.
+					ex: i/p : 1,2,3,4,5,6  , rotation:3
+					    o/p : 4,5,6,1,2,3
+
+11.reverse_half_link/reverse_half_link.c : i/p: 1->2->3->4->5->6->NULL        o/p: 3->2->1->6->5->4->NULL
+					   i/p: 1->2->3->4->5->6->7->NULL     o/p: 3->2->1->4->7->6->5->NULL
+
+12.reverse_half_link/push_pop_stack_link.c : perform the push and pop operation by using stack in linked list.
+			

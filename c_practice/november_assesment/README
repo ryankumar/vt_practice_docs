@@ -1,0 +1,8 @@
+1. replace_word_wothread.c : Replace word in file without using thread.
+
+2. using_sigwait_wohandler.c :  Replace word in a file by using thread and signals without handler.
+
+3. i.30_11.test/assignment.c :  Take two threads,one thread will read 1st string from file and 2nd thread will read 2nd string from same file 			                and main thread will write these two strings into new file by using signals. this is using by fscanf().
+   ii.30_11.test/2.c	     :	same above programm but by using fgetc().
+
+

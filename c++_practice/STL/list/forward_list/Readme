@@ -1,0 +1,33 @@
+some functionallity is same as list. hence follow list for below functionality .
+1. push_front(), emplace_front() and pop_front() 
+2. merge() :- This function is used to merge one forward list with other. If both the lists are sorted then the resulted list returned is also sorted.
+
+3. operator “=” :- This operator copies one forward list into other. The copy made in this case is deep copy.
+4. sort() :- This function is used to sort the forward list. 
+5.  unique() :- This function deletes the multiple occurrences of a number and returns a forward list with unique elements. The forward list should be sorted for this function to execute successfully.
+
+6. reverse() :- This function is used to reverse the forward list.
+
+7. swap() :- This function swaps the content of one forward list with other.
+
+8.. clear() :- This function clears the contents of forward list. After this function, the forward list becomes empty.
+
+9. empty() :- This function returns true if the list is empty otherwise false.
+
+NOTE : (ITERARTOR)
+
+1.If A is an forward iterator, then
+    A-- //not aplicable;
+
+2.If A and B are forward iterators, then
+  A == B     // Allowed
+  A <= B     // Not Allowed
+
+3.If A and B are forward iterators, then
+
+ A + 1     // Not allowed
+ B - 2     // Not allowed
+
+4.If A is a forward iterator, then
+ A[3]    // Not allowed 
+

@@ -1,0 +1,26 @@
+Queue:   
+Queues are a type of container adaptors which operate in a first in first out (FIFO) type of arrangement. Elements are inserted at the back (end) and are deleted from the front.
+
+
+1. empty() – Returns whether the queue is empty.
+2. size() – Returns the size of the queue.
+3. queue::swap() in C++ STL: Exchange the contents of two queues but the queues    must be of same type, although sizes may differ.
+4. queue::emplace() in C++ STL: Insert a new element into the queue container,     the new element is added to the end of the queue.
+5. queue::front() and queue::back() in C++ STL– front() function returns a         reference to the first element of the queue.  back() function returns a         reference to the last element of the queue.
+
+6. push(g) and pop() – push() function adds the element ‘g’ at the end of the      queue. pop() function deletes the first element of the queue.
+
+
+priority_queue:
+       Priority queues are a type of container adapters, specifically designed such that the first element of the queue is the greatest of all elements in the queue and elements are in non decreasing order(hence we can see that each element of the queue has a priority{fixed order}.
+
+
+1. priority_queue::empty() in C++ STL– empty() function returns whether the queue is empty.
+2. priority_queue::size() in C++ STL– size() function returns the size of the queue.
+3. priority_queue::top() in C++ STL– Returns a reference to the top most element of the queue
+4. priority_queue::push() in C++ STL– push(g) function adds the element ‘g’ at the end of the queue.
+5. priority_queue::pop() in C++ STL– pop() function deletes the first element of the queue.
+6. priority_queue::swap() in C++ STL– This function is used to swap the contents of one priority queue with another priority queue of same type and size.
+7. priority_queue::emplace() in C++ STL – This function is used to insert a new element into the priority queue container, the new element is added to the top of the priority queue.
+8. priority_queue value_type in C++ STL– Represents the type of object stored as an element in a priority_queue. It acts as a synonym for the template parameter.
+

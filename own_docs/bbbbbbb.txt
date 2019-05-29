@@ -1,0 +1,321 @@
+https://elinux.org/Building_for_BeagleBone
+Building for BeagleBone
+Contents
+
+    1 Arm Compiler
+        1.1 Linaro Toolchain
+        1.2 Distro provided
+        1.3 crosstool-NG
+    2 U-Boot
+        2.1 Mainline U-boot
+        2.2 Test your new U-Boot
+    3 Kernel
+        3.1 Mainline Kernel
+        3.2 Test your new Kernel
+    4 Root File System
+
+Arm Compiler
+
+Setting up cross-compile environment is the first and necessary step. This will be used to compile your Bootloader, Kernel and the RootFile system for the beaglebone. The same applies to any board if the Host system is of a different architecture than the target system. Host in this case is your Laptop/Desktop where you will compile having x86 Intel Architecture almost certainly and the target is beaglebone having an ARM processor.
+Linaro Toolchain
+
+Linaro is an open organization focused on improving Linux on ARM. Toolchain Working Group provides the preferred community toolchain. These are prebuilt toolchains and just need to be moved to your appropriate bin directory which is available in the PATH environment variable while building.
+
+Arch Linux : gcc-linaro-arm-linux-gnueabihf
+Distro provided
+
+The easier way is install the default compiler provided by your distribution.
+
+Ubuntu : gcc-arm-linux-gnueabi
+
+Arch Linux : arm-linux-gnueabi-gcc
+
+    Tip: Do a alias in your environment, where N is the number of processors cores plus one:
+
+$ alias armmake='make -jN ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- '
+
+crosstool-NG
+
+crosstool-NG aims at building toolchains. So, by this way you will build your own cross-compiler, but this requires that you choose an operation system and LibC. Therefore we will build a cross-compiler for Linux/gLibc.
+U-Boot
+Mainline U-boot
+
+You can use the mainline u-boot for beaglebone.
+
+Get:
+
+$ git clone git://git.denx.de/u-boot.git
+
+Clean:
+
+$ armmake distclean
+
+Configure for BeagleBone:
+
+$ armmake am335x_evm_config
+
+Build:
+
+$ armmake
+
+When the build is successfully completed, do check for these two files MLO and u-boot.img in the same directory, these will be used to boot the board.
+Test your new U-Boot
+
+You need a microSd card with 2Gb or more. In order to make U-Boot work you will need to create the first partion as FAT32 LBA, bootable, with something like 64 Megabytes.
+This command wipes everything from your sdcard and creates that partition.
+
+$ echo -e "o\nn\np\n1\n\n+64M\na\n1\nt\nc\nw\n" | sudo fdisk /dev/MYDISK ; sudo fdisk /dev/MYDISK -l
+
+This comand should print something like:
+
+Disk /dev/sdb: 7948 MB, 7948206080 bytes
+16 heads, 4 sectors/track, 242560 cylinders, total 15523840 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x1c524301
+    Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1   *        2048      133119       65536    c  W95 FAT32 (LBA)
+
+The U-Boot compilation generated two files, MLO and uboot.img. Mount the partition that you just created and copy FIRST the MLO file to partition. Then copy the u-boot.img
+
+$ sudo mount /dev/MYDISK /mnt
+$ sudo cp MLO /mnt
+$ sudo cp u-boot.img  /mnt
+$ sudo sync
+$ sudo umount  /mnt
+
+Now with that sdcard in BeagleBone the output from serial should be:
+
+IMP: To boot from the microSD card , u need to hold the button S2, this button is near the host USB port, on the other side of the ethernet port. If this is not held, the board may follow its default boot order and try booting from the onboard eMMC, if a uboot image is available on the onboard eMMC, our uboot image will not be built.
+
+U-Boot SPL 2014.07-rc4-00264-g23f23f2-dirty (Jul 05 2014 - 21:56:58)
+reading u-boot.img
+reading u-boot.img
+
+
+U-Boot 2014.07-rc4-00264-g23f23f2-dirty (Jul 05 2014 - 21:56:58)
+
+I2C:   ready
+DRAM:  512 MiB
+NAND:  0 MiB
+MMC:   OMAP SD/MMC: 0, OMAP SD/MMC: 1
+*** Warning - readenv() failed, using default environment
+
+Net:   <ethaddr> not set. Validating first E-fuse MAC
+cpsw, usb_ether
+Hit any key to stop autoboot:  0 
+switch to partitions #0, OK
+mmc0 is current device
+SD/MMC found on device 0
+reading uEnv.txt
+** Unable to read file uEnv.txt **
+** Invalid partition 2 **
+switch to partitions #0, OK
+mmc1(part 0) is current device
+SD/MMC found on device 1
+reading uEnv.txt
+26 bytes read in 3 ms (7.8 KiB/s)
+Loaded environment from uEnv.txt
+Importing environment from mmc ...
+** File not found /boot/zImage **
+Booting from nand ...
+
+no devices available
+
+no devices available
+Bad Linux ARM zImage magic!
+U-Boot# 
+
+If you don't see this output, but sees a bunch of "CCCCC", this could mean that the first partition doesn't have the boot flag set.
+
+There are two problems in this output. First, you don't have a uEnv.txt, which configure the U-Boot and secondly you don't have a linux image. But first check what is the default environment from Beaglebone. Boot the u-boot and do a pr command, the output should be like this:
+
+U-Boot# pr
+arch=arm
+baudrate=115200
+board=am335x
+board_name=A335BNLT
+board_rev=0A5A
+boot_fdt=try
+bootargs=console=ttyO0,115200n8 quiet drm.debug=7 root=ubi0:rootfs rw ubi.mtd=7,2048 rootfstype=ubifs rootwait=1
+bootcmd=run findfdt; run mmcboot;setenv mmcdev 1; setenv bootpart 1:2; run mmcboot;run nandboot;
+
+Some of these configs comes from "u-boot/include/configs/am335x_evm.h". These configs can be changed, but u-boot needs to be recompiled in order to take effect. But, the most common way is change configs in a file called uEnv.txt. This file is read in boot time, and override any configuration pre-defined in beaglebone.
+
+This is the basic uEnv.txt that your boards needs in order to boot your kernel. Create and put this file uEnv.txt in your boot partition.
+
+bootdir=
+bootfile=zImage
+fdtfile=am335x-boneblack.dtb
+loadaddr=0x80007fc0
+fdtaddr=0x80F80000
+loadfdt=fatload mmc 0:1 ${fdtaddr} ${fdtfile}
+loaduimage=fatload mmc 0:1 ${loadaddr} ${bootfile}
+uenvcmd=mmc rescan; run loaduimage; run loadfdt; run fdtboot
+fdtboot=run mmc_args; run mmcargs; bootz ${loadaddr} - ${fdtaddr}
+mmc_args=setenv bootargs console=${console} ${optargs} root=${mmcroot} rootfstype=${mmcrootfstype}
+
+
+Subscript text
+Kernel
+Mainline Kernel
+
+You can use the mainline linux for beaglebone.
+
+Get:
+
+$ git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+
+Clean:
+
+$ armmake distclean
+
+Configure for BeagleBone:
+
+$ armmake multi_v7_defconfig
+
+Check if two remaining configs are set:
+
+│ Symbol: MFD_TPS65217 [=n]
+│ Type  : tristate
+│ Prompt: TI TPS65217 Power Management / White LED chips
+│   Location:
+│     -> Device Drivers
+│ (1)   -> Multifunction device drivers
+│   Defined at drivers/mfd/Kconfig:877
+│   Depends on: HAS_IOMEM [=y] && I2C [=y]
+│   Selects: MFD_CORE [=y] && REGMAP_I2C [=y]
+
+│ Symbol: REGULATOR_TPS65217 [=n]
+│ Type  : tristate
+│ Prompt: TI TPS65217 Power regulators
+│   Location:
+│     -> Device Drivers
+│ (1)   -> Voltage and Current Regulator Support (REGULATOR [=y])
+│   Defined at drivers/regulator/Kconfig:554
+│   Depends on: REGULATOR [=y] && MFD_TPS65217 [=y]
+
+Build:
+
+$ armmake
+
+After build, there are two important files. Linux kernel at arch/arm/boot/zImage and Device Tree Blob arch/arm/boot/dts/am335x-boneblack.dtb or arch/arm/boot/dts/am335x-bone.dtb (for white). So copy that to memory card.
+
+$ sudo cp arch/arm/boot/zImage /mnt
+$ sudo cp arch/arm/boot/dts/am335x-boneblack.dtb /mnt
+
+Test your new Kernel
+
+Now your kernel is able to boot. But finish this way:
+
+[1.507789] EXT4-fs (mmcblk0p2): mounted filesystem with ordered data mode. Opts: (null)
+[1.516423] VFS: Mounted root (ext4 filesystem) readonly on device 179:2.
+[1.525636] devtmpfs: error mounting -2
+[1.530467] Freeing unused kernel memory: 728K (c0b90000 - c0c46000)
+[1.537240] Kernel panic - not syncing: No working init found. Try passing init= option to kernel. See Linux Documentation/init.txt for guidance.
+[1.551022] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 3.18.0-rc3-00134-gfe606df #1
+[1.559008] [<c02162c0>] (unwind_backtrace) from [<c0211cc4>] (show_stack+0x10/0x14)
+[1.567139] [<c0211cc4>] (show_stack) from [<c0896d64>] (dump_stack+0x8c/0x9c)
+[1.574716] [<c0896d64>] (dump_stack) from [<c08964d0>] (panic+0xa0/0x218)
+[1.581929] [<c08964d0>] (panic) from [<c089488c>] (cpu_die+0x0/0x80)
+[1.588682] [<c089488c>] (cpu_die) from [<00000000>] ( (null))
+[1.594897] ---[ end Kernel panic - not syncing: No working init found. Try passing init= option to kernel. See Linux Documentation/init.txt for guidance.
+
+This means that your board doesn't have a root file system.
+
+
+NOTE: I faced a issue where the boot process got stuck at.
+
+In some case , the boot may be stuck at
+
+[    1.645505] Waiting for root device ... 
+[    1.654437] mmc1: new high speed MMC card at address 0001
+[    1.660920] mmcblk1: mmc1:0001 S10004 3.56 GiB 
+[    1.666011] mmcblk1boot0: mmc1:0001 S10004 partition 1 4.00 MiB 
+[    1.672479] mmcblk1boot1: mmc1:0001 S10004 partition 2 4.00 MiB 
+[    1.679915]  mmcblk1: p1 p2
+
+The reason being the root partition was not being passed correctly, we need to make changes in th uEnv.txt file that we created before.
+
+This was the original uEnv.txt file,
+
+bootdir=                                                         
+bootfile=zImage 
+fdtfile=am335x-boneblack.dtb
+loadaddr=0x80007fc0
+fdtaddr=0x80F80000
+loadfdt=fatload mmc 0:1 ${fdtaddr} ${fdtfile}
+loaduimage=fatload mmc 0:1 ${loadaddr} ${bootfile}     
+uenvcmd=mmc rescan; run loaduimage; run loadfdt; run fdtboot
+fdtboot=run mmc_args; run mmcargs; bootz ${loadaddr} - ${fdtaddr}
+mmc_args=setenv bootargs console=${console} ${optargs} root=${mmcroot} rootfstype=${mmcrootfstype}
+
+
+I modified the last line as ,
+
+mmc_args=setenv bootargs console=${console} ${optargs} root=/dev/mmcblk0p2 rootfstype=ext4
+
+to mark our microSD card's second partition as the root device, that will have our root file system.
+
+-mmcblk0(microSD)
+----mmcblk0p1 (partition1)
+----mmvblk0p2 (partition2)
+-mmcblk1(onboard eMMC)
+----mmcblk1p1 (partition1)
+----mmcblk1p2 (partition2)
+
+Root File System
+
+To create a root file system we need BuildRoot.
+
+Clone the source:
+
+$ git clone git://git.buildroot.net/buildroot
+
+Configure buildroot for Beaglebone:
+
+$ make beaglebone_defconfig
+
+Let's do some tweaking.
+
+$ make menuconfig
+
+    Uncheck Kernel, you just built yours.
+    Ucheck bootloaders --> u-boot, you just built yours.
+    Target options --->:
+        Floating point strategy (NEON)
+        ARM instruction set (Thumb2)
+    Toolchain --->
+        Toolchain type (External toolchain)
+        Toolchain (Linaro ARM 2014.08)
+        Toolchain origin (Pre-installed toolchain)
+        (/opt/gcc-linaro-arm-linux-gnueabihf) Toolchain path
+    Target packages --->
+        Networking applications --->
+            [*] dhcpcd
+            [*] openssh
+        Text editors and viewers --->
+            [*] nano
+    Filesystem images --->
+        ext2/3/4 variant (ext4) --->
+            (X) ext4
+
+Now save and exit.
+
+Build the root file system:
+
+$ make
+
+If the build fails, asking for the zImage and the dts files, just copy the ones we generated while building the kernel into the output/images/ directory of the buildroot environment.
+
+Finally you can flash the rootfs image to sdcard:
+
+$ sudo dd if=buildroot/output/images/rootfs.ext4 of=/dev/sdc2
+
+The end:
+
+Welcome to Buildroot
+beaglebone login:
+
+The default user is "root" without any password. 

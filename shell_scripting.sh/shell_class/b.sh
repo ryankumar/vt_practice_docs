@@ -1,0 +1,3 @@
+. ./a.sh
+echo In b.sh...
+echo $VAR

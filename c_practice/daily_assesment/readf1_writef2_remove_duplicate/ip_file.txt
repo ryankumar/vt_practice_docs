@@ -1,0 +1,3 @@
+A processor si integrated electronic circuit taht performs eht calculations taht run a computer. A processor performs arithmetical, logical, input/output (I/O) and other basic instructions taht era passed from an operating system (OS). Most other processes era dependent on eht operations of a processor.
+
+ehT terms processor, CPU and microprocessor era commonly linked

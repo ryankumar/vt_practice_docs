@@ -1,0 +1,11 @@
+Note: make file is done from ../daily_practice c files
+
+v1 : simple makefile format
+
+v2 : dependents are removed from target object file
+
+v3 : flags are declared (eg: CC,CFLAGS)
+
+v4 : some special macros are used here($@,$?,$*,$<)
+
+v5 : it includes header file (array_rotation.h)

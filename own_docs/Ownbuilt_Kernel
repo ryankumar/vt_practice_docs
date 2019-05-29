@@ -1,0 +1,35 @@
+Kernel Configuration, Compilation and Install
+---------------------------------------------
+1. Download Kernel Source from Kernel masters server:
+	$ cd ~/KM_GIT
+	$ git clone git@192.168.1.6:root/linux-4.4.git
+2. Kernel Configuration
+	$ cd ~/KM_GIT/linux-4.4
+	$ du -sh .
+	730 M
+	$ make menuconfig  (By default configuration file for x86 platform is /boot/config-`uname -r`)
+	out put of kernel configuration is .config file.
+	CONFIG_<option>=y/m/notset ;   y -Static ; m-module(Dynamic)
+3. Kernel Compilaton
+	$ make -j4  (Static Compilation)
+	out put is vmlinux (kernel raw image) - virtual memory linux
+	$ du -sh vmlinux (with out compressing)
+	152 M
+	$ make modules  (Dynamic Compilation)
+	out put is .ko 
+	$ du -sh . 
+    	9.3 G
+4. Kernel Install
+	$ sudo make modules_install (.ko installation)
+	out put is /lib/modules/`uname -r`/build/
+	$ sudo make install 
+	out put is /boot/vmlinuz-`uname -r`  (vmlinuz is compressed linux kernel is virtual memory linux gZip)
+	out put is /boot/config-`uname -r`
+	out put is /boot/System.map-`uname -r`
+	out put is /boot/initrd-`uname -r`
+	out put is /boot/abi-`uname -r`
+	$ du -sh vmlinuz-`uname -r`
+	5.3 M
+5. Reboot 
+	$ sudo reboot
+

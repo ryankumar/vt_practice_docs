@@ -1,0 +1,53 @@
+﻿TEST CASES:
+
+no.of nodes		      input(elements)			output       Adress
+   
+   1				 5					5   		0x14ec830
+ 
+   2				4,5					4		0x258c830
+									5		0x258c850
+
+   3				4,5,6					4		0x25ee830
+									5		0x25ee850
+									6		0x25ee870
+   
+   4				4,5,6,7				5     	0x20b6850	
+									4     	0x20b6830
+									7		0x20b6890
+									6		0x20b6870
+
+   5				4,5,6,7,8				5     	0x1a43850
+									4     	0x1a43830
+									6     	0x1a43870
+									8     	0x1a438b0
+									7     	0x1a43890
+
+   6				4,5,6,7,8,9				6     	0x1cd4870
+									5      	0x1cd4850
+									4           0x1cd4830
+									9     	0x1cd48d0
+									8     	0x1cd48b0
+									7     	0x1cd4890
+   
+  7			    3,4,5,6,7,8,9				5     	0x1a98870
+									4     	0x1a98850
+									3     	0x1a98830
+									6     	0x1a98890
+									9     	0x1a988f0
+									8     	0x1a988d0
+									7     	0x1a988b0
+
+For checking memory leak:
+
+valgrind --leak-check=full ./a.out				
+
+output:
+==31443== 
+==31443== HEAP SUMMARY:
+==31443==     in use at exit: 0 bytes in 0 blocks
+==31443==   total heap usage: 7 allocs, 7 frees, 2,128 bytes allocated
+==31443== 
+==31443== All heap blocks were freed -- no leaks are possible
+==31443== 
+==31443== For counts of detected and suppressed errors, rerun with: -v
+==31443== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

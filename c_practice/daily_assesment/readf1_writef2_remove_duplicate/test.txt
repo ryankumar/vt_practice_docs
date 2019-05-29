@@ -1,0 +1,1 @@
+Need more than one sentence? You can specify how many sentence you need by changing the last number in the Rand statement.

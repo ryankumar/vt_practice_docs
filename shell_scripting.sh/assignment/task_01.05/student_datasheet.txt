@@ -1,0 +1,5 @@
+name marks1 marks2 marks3
+aaa   52      72     25
+bbb   53      30     70
+ccc   77      79     80
+ddd   98      87     78

@@ -1,0 +1,9 @@
+﻿TEST CASES:
+
+		input							output
+1. enter the size of array						6
+2. enter the elements for array					1,2,3,4,5,6
+3. number of rotation
+		3								4,5,6,1,2,3
+		5								6,1,2,3,4,5
+		20  (20%6=3times rotation)				4,5,6,1,2,3

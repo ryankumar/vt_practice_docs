@@ -1,0 +1,5 @@
+﻿Test cases:
+		   
+1. give the source file(input file) as a 1st argumnet to command line argument.
+2. its working properly for small size file but when i took 4mb file it’s not copying last few lines.
+3. it is successfully terminating the threads.

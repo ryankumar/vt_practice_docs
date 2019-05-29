@@ -1,0 +1,2 @@
+ This is only a simple server_client application using fork.
+ here one demarit is that server/client can send a mesg once at a time. after getting rply from server/client you can able to send again.

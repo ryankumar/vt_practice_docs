@@ -1,0 +1,12 @@
+  Double ended queues are sequence containers with the feature of expansion and contraction on both the ends. They are similar to vectors, but are more efficient in case of insertion and deletion of elements at the end, and also the beginning. Unlike vectors, contiguous storage allocation may not be guaranteed.
+
+NOTE:
+what ever  the function/library(push_back;pop_back,etc..) are impleament for vector that is also applicable for dequeue.
+1.insert :
+deque_name.insert (iterator position, const value_type& val)
+                or
+deque_name.insert (iterator position, size_type n, const value_type& val)
+                or
+deque_name.insert (iterator position, InputIterator first, InputIterator last)
+
+2.
